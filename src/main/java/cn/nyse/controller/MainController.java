@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class MainController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @RequestMapping("login")
     public Result login(@RequestBody Map<String,Object> params, HttpSession session){
@@ -25,6 +26,7 @@ public class MainController {
         System.out.println(session.getAttribute("checkCode"));
         Result result = new Result();
         if(params.containsKey("code")&& !StringUtils.isEmpty(params.get("code"))){
+            result.setMsg("");
             if(session.getAttribute("checkCode").equals(params.get("code"))){
                 if(params.containsKey("username")&&!StringUtils.isEmpty(params.get("username"))
                         &&params.containsKey("password")&&!StringUtils.isEmpty(params.get("password"))){
@@ -33,6 +35,7 @@ public class MainController {
                     String username = (String) params.get("username");
                     String password = (String) params.get("password");
                     user.setUsername(username);
+                    user.setPassword(password);
                     User loginUser = userService.selectOne(user);
                     if(loginUser!=null){//登录成功
                         result.setSuccess(true);
@@ -45,6 +48,8 @@ public class MainController {
 
                         //将用户信息放入session
                         session.setAttribute("user",user);
+                    }else{
+                        result.setMsg("用户名或者密码错误！！！");
                     }
                 }
             }

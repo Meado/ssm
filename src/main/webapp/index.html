@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/form-elements.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <title>登录</title>
+    <style>
+        body {
+            background: url("img/bg.jpg") no-repeat fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container myBox" id="containerMyBox">
+    <div class="col-xs-8 col-xs-offset-4 col-sm-6 col-sm-offset-3 form-box">
+        <div class="form-top">
+            <div class="form-top-left">
+                <h3>小标会议平台</h3>
+                <p>请输入您的信息:</p>
+            </div>
+            <div class="form-top-right">
+                <i class="fa fa-key"></i>
+            </div>
+        </div>
+        <div class="form-bottom">
+            <form role="form" action="login" method="post" class="login-form">
+
+                <!--上面的输入框尽可能不需要外边距，使用row解决-->
+                <div class="row">
+                    <div class="form-group">
+                        <label class="sr-only" for="form-username">Username</label>
+                        <input type="text" name="form-username" placeholder="用户名" class="form-username form-control" v-model="params.username"
+                               id="form-username">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="form-password">Password</label>
+                        <input type="password" name="form-password" placeholder="密码" class="form-password form-control" v-model="params.password"
+                               id="form-password">
+                    </div>
+					<div class="form-group">
+                        <input type="text" name="checkCode" id="checkCode" v-model="params.code"
+                               placeholder="请输入验证码" style="width: 180px;"/>
+                        <a>
+                            <img src="getCode.jpg" title="看不清点击刷新" id="code" class="pull-right" title="点击换一张" style="cursor: pointer;border: 1px solid rgb(181, 181, 181);" @click="changeImg"/>
+                        </a>
+                    </div>
+                </div>
+                <!--上面的输入框尽可能不需要外边距，使用row包裹起来解决-->
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> 记住我
+                    </label>
+                </div>
+                <button type="button" class="btn" @click="toLogin()">登录</button>
+
+                <div class="row">
+                    <div style="padding: 10px 25px">
+                        <div style="display: inline-block;float: left" class="text-left"><a href="forget.html">忘记密码?</a></div>
+                        <div style="display: inline-block;float: right" class="text-right"><a href="register.html">没有账号?</a></div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Javascript -->
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery.backstretch.min.js"></script>
+<script src="js/scripts.js"></script>
+<script src="vue/vue.js"></script>
+<script src="vue/axios.js"></script>
+<script type="text/javascript" src="layer/layer.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#containerMyBox",
+        data:function () {
+            return {
+                params:{
+                    username:"",
+                    password:"",
+                    code:""
+                }
+            }
+        },
+        methods: {
+            changeImg:function(e){
+                // console.log(e.target.src);
+                e.target.src="getCode.jpg?"+new Date();
+            },
+            toLogin:function () {
+                axios({
+                    url:"login",
+                    method:"post",
+                    data: this.params
+                }).then(response=>{
+                    console.log(response.data);
+                    //判断是否登录成功
+                    //失败则提示
+                    if(response.data.success){
+                        //成功则将返回信息放入前端的状态管理中，跳转到index.html
+                        //将后台返回的key:value结构数据 转换成json串  放入到userInfo里面
+                        //再将userInfo放入到前端的会话对象sessionStorage中，该sessionStorage对象是整个浏览器不关闭的时候都存在的
+                        sessionStorage.setItem("userInfo",JSON.stringify(response.data.obj));
+                        location.href="html/home.html";
+                    }else{
+                        layer.msg(response.data.msg);
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

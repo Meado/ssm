@@ -3,6 +3,7 @@ import cn.nyse.controller.MainController;
 import cn.nyse.dao.UserMapper;
 import cn.nyse.entity.User;
 import cn.nyse.service.UserService;
+import cn.nyse.util.KeyUtil;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +54,22 @@ public class TestXb {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.configFromPropety(properties);//自动配置
         System.out.println(druidDataSource);
+    }
+
+    @Test
+    public void testInsertOne(){
+        User user = new User();
+        user.setEmail("123456@ailiyun");
+        user.setUsername("小测");
+        user.setPassword("123456");
+        int i = service.insertSelective(user);
+        System.out.println(i);
+    }
+
+    @Test
+    public void testKeyUtil(){
+        String s = KeyUtil.keyUtil();
+        System.out.println(s);
     }
 
 }
