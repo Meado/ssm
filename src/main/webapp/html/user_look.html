@@ -51,14 +51,14 @@
     </nav>
 </header>
 
-<div class="d-flex align-items-stretch">
+<div class="d-flex align-items-stretch" id="user_look">
     <!-- Sidebar Navigation-->
     <nav id="sidebar">
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center">
             <div id="avatar" class="avatar"><img src="../img/avatar-6.jpg" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-                <h1 class="h5">小标</h1>
+                <h1 class="h5">{{userInfo.realName}}</h1>
                 <p>研发部</p>
             </div>
         </div>
@@ -116,14 +116,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">真实姓名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="东方标准" class="form-control">
+                                    <input type="text" value="东方标准" class="form-control" v-model="userInfo.realName">
                                 </div>
                             </div>
                             <div class="line"></div>
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">所属部门</label>
                                 <div class="col-sm-9">
-                                    <select class="selectpicker" data-live-search="true">
+                                    <select class="selectpicker" data-live-search="true" v-model="userInfo.deptName">
                                         <option>研发部</option>
                                         <option>销售部</option>
                                         <option>行政部</option>
@@ -136,14 +136,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">电话</label>
                                 <div class="col-sm-9">
-                                    <input type="text" value="020-xxxxxxxx" name="password" class="form-control">
+                                    <input type="text" value="020-xxxxxxxx" name="password" class="form-control" v-model="userInfo.phone">
                                 </div>
                             </div>
                             <div class="line"></div>
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">年龄</label>
                                 <div class="col-sm-9">
-                                    <input type="text" placeholder="20" class="form-control">
+                                    <input type="text" placeholder="20" class="form-control" v-model="userInfo.age">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -151,10 +151,10 @@
                                 <div class="col-sm-9">
 
                                     <div class="i-checks">
-                                        <input id="radioCustom1" type="radio" value="1" name="sex" class="radio-template">
+                                        <input id="radioCustom1" type="radio" value="1" name="sex" class="radio-template" v-model="userInfo.gender">
                                         <label for="radioCustom1">男</label>
                                         <span>&nbsp;</span><span>&nbsp;</span><span>&nbsp;</span>
-                                        <input id="radioCustom2" type="radio" value="0" name="sex" class="radio-template">
+                                        <input id="radioCustom2" type="radio" value="0" name="sex" class="radio-template" v-model="userInfo.gender">
                                         <label for="radioCustom2">女</label>
                                     </div>
                                 </div>
@@ -165,14 +165,14 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">注册时间</label>
                                 <div class="col-sm-9">
-                                    <input type="text" disabled="" placeholder="2019-10-30 09:30:00" class="form-control">
+                                    <input type="text" disabled="" placeholder="2019-10-30 09:30:00" class="form-control" v-model="userInfo.registerTime">
                                 </div>
                             </div>
                             <div class="line"></div>
                             <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">登录时间</label>
                                 <div class="col-sm-9">
-                                    <input type="text" disabled="" placeholder="2019-10-30 19:30:00" class="form-control">
+                                    <input type="text" disabled="" placeholder="2019-10-30 19:30:00" class="form-control" v-model="userInfo.loginTime">
                                 </div>
                             </div>
                             <div class="line"></div>
@@ -218,9 +218,9 @@
 <script src="../vendor/chart.js/Chart.min.js"></script>
 <script src="../vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="../js/charts-home.js"></script>
-<script src="../js/front.js"></script>
-<script src="../js/custom.js"></script>
-<script src="../js/layer.js"></script>
+<script src="../vue/vue.js"></script>
+<script src="../vue/axios.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
 <script type="text/javascript">
     
     $("#pic").click(function () {
@@ -231,6 +231,22 @@
         $('#picFile').change(function () {
             layer.msg('上传成功');
         });
+
+    let vm = new Vue({
+        el:"#user_look",
+        data:{
+            userInfo:{}
+        },
+        methods:{
+            getUserInfo:function () {
+                let userInfo = sessionStorage.getItem("userInfo");
+                this.userInfo = jQuery.parseJSON(userInfo);
+            }
+        },
+        mounted:function () {
+            this.getUserInfo();
+        }
+    });
 </script>
 </body>
 </html>

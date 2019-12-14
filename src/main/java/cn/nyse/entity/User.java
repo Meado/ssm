@@ -1,5 +1,7 @@
 package cn.nyse.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Column;
@@ -58,12 +60,14 @@ public class User {
     /**
      * 注册时间
      */
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
     @Column(name = "register_time")
     private Date registerTime;
 
     /**
      * 上次登录时间
      */
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
     @Column(name = "login_time")
     private Date loginTime;
 

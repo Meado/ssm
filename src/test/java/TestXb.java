@@ -4,6 +4,7 @@ import cn.nyse.dao.UserMapper;
 import cn.nyse.entity.User;
 import cn.nyse.service.UserService;
 import cn.nyse.util.KeyUtil;
+import cn.nyse.util.SendMailUtil;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;

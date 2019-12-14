@@ -102,24 +102,29 @@
             toRegister:function () {
                 if ($("#form-email").val()!=""&&$("#form-username").val()!=""&&$("#form-password").val()!=""&&$("#form-password2").val()!=""){
                     console.log($("#form-email").val());
-                    if ($("#form-password").val()!=$("#form-password2").val()){
-                        $("#form-password2").val("");
-                        layer.msg("您填写的密码不一致，请重新填写！！！");
+                    let reg = /[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                    if (reg.test($(".form-username").val())) {
+                        if ($("#form-password").val() != $("#form-password2").val()) {
+                            $("#form-password2").val("");
+                            layer.msg("您填写的密码不一致，请重新填写！！！");
+                        } else {
+                            axios({
+                                url: "login/toRegister",
+                                method: "post",
+                                data: this.params
+                            }).then(response => {
+                                if (response.data.success) {
+                                    layer.msg(response.data.msg);
+                                    location.href = "index.html";
+                                } else {
+                                    layer.msg(response.data.msg);
+                                }
+                            }).catch(function (error) {
+                                layer.msg(error);
+                            });
+                        }
                     }else{
-                        axios({
-                            url:"toRegister",
-                            method:"post",
-                            data:this.params
-                        }).then(response=>{
-                            if (response.data.success){
-                                layer.msg(response.data.msg);
-                                location.href="index.html";
-                            }else{
-                                layer.msg(response.data.msg);
-                            }
-                        }).catch(function (error) {
-                            layer.msg(error);
-                        });
+                        layer.msg("您填写的邮箱格式不对！！！");
                     }
                 }else {
                     layer.msg("请填写完整的注册信息！！！");
