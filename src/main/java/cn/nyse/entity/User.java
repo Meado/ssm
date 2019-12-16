@@ -60,7 +60,7 @@ public class User {
     /**
      * 注册时间
      */
-    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "YYYY-MM-dd HH:mm:ss",timezone = "gtn+8")
     @Column(name = "register_time")
     private Date registerTime;
 

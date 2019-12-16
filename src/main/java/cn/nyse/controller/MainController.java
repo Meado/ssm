@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,11 @@ public class MainController {
                     user.setPassword(password);
                     User loginUser = userService.selectOne(user);
                     if(loginUser!=null){//登录成功
+
+                        //添加登录时间
+                        loginUser.setLoginTime(new Date());
+                        userService.updateByPrimaryKeySelective(loginUser);
+
                         result.setSuccess(true);
                         result.setMsg("登录成功");
                         result.setObj(loginUser);//放入响应数据用于前端保存状态
@@ -55,6 +61,8 @@ public class MainController {
                     }else{
                         result.setMsg("用户名或者密码错误！！！");
                     }
+                }else {
+                    result.setMsg("验证码错误！！！");
                 }
             }
         }
@@ -86,6 +94,7 @@ public class MainController {
 
                 user.setEmail((String) params.get("email"));
                 user.setPassword((String) params.get("password"));
+                user.setRegisterTime(new Date());
 
                 //添加数据到数据库中
                 int i = userService.insertSelective(user);

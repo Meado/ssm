@@ -48,15 +48,15 @@
     </nav>
 </header>
 
-<div class="d-flex align-items-stretch">
+<div class="d-flex align-items-stretch" id="home">
     <!-- Sidebar Navigation-->
     <nav id="sidebar">
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center">
             <div id="avatar" class="avatar"><img src="../img/avatar-6.jpg" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-                <h1 class="h5">小标</h1>
-                <p>研发部</p>
+                <h1 class="h5">{{userInfo.realName==null?"未填写":userInfo.realName}}</h1>
+                <p>{{userInfo.deptName==null?"未选择":userInfo.deptName}}</p>
             </div>
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
@@ -171,5 +171,26 @@
 <script src="../js/charts-home.js"></script>
 <script src="../js/front.js"></script>
 <script src="../js/custom.js"></script>
+<script src="../vue/vue.js"></script>
+<script src="../vue/axios.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
+<script>
+    let vm = new Vue({
+        el:"#home",
+        data:{
+            userInfo:{}
+        },
+        methods:{
+            //获取sessionStorge中的数据
+            getUserInfo:function () {
+                let userInfo = sessionStorage.getItem("userInfo");
+                this.userInfo = jQuery.parseJSON(userInfo);
+            },
+        },
+        mounted:function () {
+            this.getUserInfo();
+        }
+    });
+</script>
 </body>
 </html>
