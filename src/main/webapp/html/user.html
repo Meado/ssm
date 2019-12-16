@@ -130,7 +130,7 @@
 
                         <td>
 
-                            <input type="checkbox" class="checkbox-template" @click="">
+                            <input type="checkbox" class="checkbox-template" @click="addFocus(user.id)">
 
                         </td>
                     </tr>
@@ -224,11 +224,14 @@
                     content:"user_detail.html",
                     area:['50%','100%'],
                     end: () => {//将then函数中的this传递到end的回调函数中
-                        console.log(".....")
+                        console.log(".....");
                         //刷新页面数据    1.直接查询selectAll实现    2.获取layer.appVersion更新当前pageInfo的该数据
                         this.selectAllUser(this.pageInfo.pageNum,this.pageInfo.pageSize);
                     }
                 });
+            },
+            addFocus:function (fid) {
+                console.log(fid);
             }
         },
         mounted:function () {

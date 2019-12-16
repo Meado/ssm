@@ -56,4 +56,14 @@ public class UserController {
         return pageInfo;
     }
 
+    @RequestMapping("/user/addFocus")
+    public Result addFocus(@RequestBody String userId,@RequestBody String focusId){
+        Result result = new Result();
+
+        System.out.println(userId);
+        System.out.println(focusId);
+
+        return result;
+    }
+
 }
