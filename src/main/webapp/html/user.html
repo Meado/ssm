@@ -96,10 +96,10 @@
                 <form class="form-inline">
                     <div class="form-group">
                         <label for="inlineFormInput" class="sr-only">Name</label>
-                        <input id="inlineFormInput" type="text" placeholder="按名字查找" class="mr-sm-3 form-control">
+                        <input id="inlineFormInput" type="text" placeholder="按名字查找" class="mr-sm-3 form-control" v-model="params.realName">
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="查询" class="btn btn-primary">
+                        <input type="button" value="查询" class="btn btn-primary" @click="selectAllUser(1,pageInfo.size)">
                     </div>
                 </form>
 
@@ -130,7 +130,7 @@
 
                         <td>
 
-                            <input type="checkbox" class="checkbox-template" @click="addFocus(user.id)">
+                            <input type="checkbox" value="" class="checkbox-template" :checked="user.mark==1" @click="chooseFocus(user.id,$event)">
 
                         </td>
                     </tr>
@@ -191,7 +191,8 @@
                 userInfo: {},
                 params: {
                     pageNum: 1,
-                    pageSize: 3
+                    pageSize: 3,
+                    realName:""
                 }
             }
         },
@@ -230,8 +231,19 @@
                     }
                 });
             },
-            addFocus:function (fid) {
-                console.log(fid);
+            chooseFocus: function (id, event) {
+                let checked = $(event.currentTarget).is(":checked");
+                axios({
+                    url: "../user/chooseFocus",
+                    params: {
+                        fid: id,
+                        checked: checked
+                    }
+                }).then(res => {
+                    layer.msg(res.data.msg);
+                }).catch(function (error) {
+                    console.log(error)
+                });
             }
         },
         mounted:function () {

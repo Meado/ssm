@@ -57,7 +57,7 @@ public class MainController {
                         result.setObj(loginUser);//放入响应数据用于前端保存状态
 
                         //将用户信息放入session
-                        session.setAttribute("user",user);
+                        session.setAttribute("user",loginUser);
                     }else{
                         result.setMsg("用户名或者密码错误！！！");
                     }

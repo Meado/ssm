@@ -49,15 +49,15 @@
     </nav>
 </header>
 
-<div class="d-flex align-items-stretch">
+<div class="d-flex align-items-stretch" id="article_home">
     <!-- Sidebar Navigation-->
     <nav id="sidebar">
         <!-- Sidebar Header-->
         <div class="sidebar-header d-flex align-items-center">
             <div id="avatar" class="avatar"><img src="../img/avatar-6.jpg" alt="..." class="img-fluid rounded-circle"></div>
             <div class="title">
-                <h1 class="h5">小标</h1>
-                <p>研发部</p>
+                <h1 class="h5">{{userInfo.realName==null?"未填写":userInfo.realName}}</h1>
+                <p>{{userInfo.deptName==null?"未选择":userInfo.deptName}}</p>
             </div>
         </div>
         <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
@@ -84,7 +84,7 @@
 
     </nav>
     <!-- Sidebar Navigation end-->
-    <div class="page-content">
+    <div class="page-content" id="main-container">
         <div class="page-header">
             <div class="container-fluid">
                 <h2 class="h5 no-margin-bottom">发布文章</h2>
@@ -99,61 +99,38 @@
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="inlineFormInput" class="sr-only">Name</label>
-                            <input id="inlineFormInput" type="text" placeholder="按标题名字查找" class="mr-sm-3 form-control">
+                            <input id="inlineFormInput" type="text" placeholder="按标题名字查找" class="mr-sm-3 form-control" v-model="params.title">
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="查询" class="btn btn-primary">
+                            <input type="button" value="查询" class="btn btn-primary" @click="selectAll(1,pageInfo.pageSize)">
                         </div>
                     </form>
 
-                    <input id = "addArt" type="submit" value="发布文章" class="btn btn-primary">
+                    <input id = "addArt" type="button" value="发布文章" class="btn btn-primary" @click="toUpdate">
 
                 </div>
 
-                <ul>
+                <ul v-for="ar in pageInfo.list">
                     <li class="list-group-item">
- 
-                        <a href="article_detail.html">如何做一名合格的Java工程师？</a>
-                        <p class="h6"><strong>作者：</strong>小标</p>
-                        <p class="h6"><strong>时间：</strong>2019-10-30 09:52:12</p>
-                        <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名工程师</p>
-                    </li>
+                        <a @click="toDetail(ar.id)" style="text-decoration: underline;color: red">{{ar.title}}
+                        </a>
+                        <p class="h6"><strong>作者：</strong>{{ar.publishRealName}}</p>
+                        <p class="h6"><strong>时间：</strong>{{ar.publishDate}}</p>
+                        <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">{{ar.content}}</p>
 
-                    <li class="list-group-item">
-   
-                        <a href="article_detail.html">如何做一名合格的Java工程师？</a>
-                        <p class="h6"><strong>作者：</strong>小标</p>
-                        <p class="h6"><strong>时间：</strong>2019-10-30 09:52:12</p>
-                        <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名工程师</p>
-                    </li>
-
-                    <li class="list-group-item">
-
-                        <a href="article_detail.html">如何做一名合格的Java工程师？</a>
-                        <p class="h6"><strong>作者：</strong>小标</p>
-                        <p class="h6"><strong>时间：</strong>2019-10-30 09:52:12</p>
-                        <p style="white-space:nowrap;overflow:hidden;text-overflow: ellipsis">做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力，做一名Java工程师需要付出非常大的努力 做一名工程师</p>
                     </li>
 
                 </ul>
 
                 <nav class="text-center" aria-label="Page navigation">
                     <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
+
+                        <li v-if="pageInfo.pageNum>1" :class="pageInfo.pageNum==1?'prev disabled': 'prev'"><a href="javascript:void(0);" @click="selectAll(pageInfo.prePage,pageInfo.pageSize)">上一页</a></li>
+                        <li v-else-if="pageInfo.pageNum<=1" :class="pageInfo.pageNum==1?'prev disabled': 'prev'"><a href="javascript:void(0);" >上一页</a></li>
+                        <li :class="num==pageInfo.pageNum?'active':''"  v-for="num in pageInfo.navigatepageNums"><a href="javascript:void(0);" @click="selectAll(num,pageInfo.pageSize)">{{num}}</a></li>
+                        <li v-if="pageInfo.pageNum<pageInfo.pages" :class="pageInfo.pageNum==pageInfo.pages?'next disabled': 'next'"><a href="javascript:void(0);" @click="selectAll(pageInfo.nextPage,pageInfo.pageSize)">下一页</a></li>
+                        <li v-else-if="pageInfo.pageNum>=pageInfo.pages" :class="pageInfo.pageNum==pageInfo.pages?'next disabled': 'next'"><a href="javascript:void(0);">下一页</a></li>
+
                     </ul>
                 </nav>
             </div>
@@ -179,6 +156,78 @@
 <script src="../js/charts-home.js"></script>
 <script src="../js/front.js"></script>
 <script src="../js/custom.js"></script>
+<script src="../vue/vue.js"></script>
+<script src="../vue/axios.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
 
+<script>
+    let vm = new Vue({
+        el:"#article_home",
+        data:{
+            userInfo: {},
+            pageInfo: {
+                pageNum: 1,
+                pageSize: 5
+            },
+            params:{
+                pageNum: '',
+                pageSize: '',
+                title:'',
+                id:''
+            }
+        },
+        methods:{
+            //获取sessionStorge中的数据
+            getUserInfo:function () {
+                let userInfo = sessionStorage.getItem("userInfo");
+                this.userInfo = jQuery.parseJSON(userInfo);
+            },
+            selectAll: function (pageNum, pageSize) {
+                this.params.pageNum = pageNum;
+                this.params.pageSize = pageSize;
+                let userInfo =sessionStorage.getItem("userInfo");
+                let user =  JSON.parse(userInfo);
+                this.params.id = user.id;
+                axios({
+                    url: "../article/list",
+                    method: "post",
+                    data: this.params
+                }).then(res => {
+                    this.pageInfo = res.data;
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            },
+            toDetail: function (id) {
+                let userInfo =sessionStorage.getItem("userInfo");
+                let user =  JSON.parse(userInfo);
+                let uid = user.id;
+                axios({
+                    url: "../article/selectByAId",
+                    params: {aid: id,uid:uid}
+                }).then(res => {
+                    layer.obj = res.data;
+                    let index = layer.open({
+                        type: 2,
+                        title: "文章详细信息",
+                        content: '/html/article_detail.html',
+                        area: ['90%', '60%']
+                    })
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            },
+            toUpdate: function () {
+                location.href = "article_add.html"
+            }
+        },
+        created: function () {
+            this.selectAll(this.pageInfo.pageNum, this.pageInfo.pageSize);
+        },
+        mounted:function () {
+            this.getUserInfo();
+        }
+    });
+</script>
 </body>
 </html>

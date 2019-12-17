@@ -7,6 +7,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "user")
@@ -98,6 +99,17 @@ public class User {
      */
     @Column(name = "dept_id")
     private Integer deptId;
+
+    @Transient
+    private Integer mark;
+
+    public Integer getMark() {
+        return mark;
+    }
+
+    public void setMark(Integer mark) {
+        this.mark = mark;
+    }
 
     /**
      * @return id

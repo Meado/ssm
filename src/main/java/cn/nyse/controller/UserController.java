@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -51,17 +52,38 @@ public class UserController {
 
     @RequestMapping("/user/selectAllUser")
     @ResponseBody
-    public PageInfo<User> selectAllUser(@RequestBody Map<String,Object> params){
-        PageInfo<User> pageInfo = userService.selectAllUser(params);
-        return pageInfo;
+    public PageInfo<User> selectAllUser(@RequestBody Map<String,Object> params,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        params.put("id", user.getId());
+        return userService.selectByCondition(params);
     }
 
-    @RequestMapping("/user/addFocus")
-    public Result addFocus(@RequestBody String userId,@RequestBody String focusId){
-        Result result = new Result();
+    @RequestMapping("/user/selectFocus")
+    @ResponseBody
+    public PageInfo<User> selectFocus(@RequestBody Map<String, Object> focus){
+        return userService.selectFocus(focus);
+    }
 
-        System.out.println(userId);
-        System.out.println(focusId);
+    @RequestMapping("/user/chooseFocus")
+    @ResponseBody
+    public Result chooseFocus(long fid, String checked, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        Result result  = new Result();
+        if ("true".equals(checked)){
+            int i = userService.insertFacus(user.getId(), fid);
+            if (i>0)
+            {
+                result.setSuccess(true);
+                result.setMsg("关注成功！");
+            }
+        }else if ("false".equals(checked)){
+            int i = userService.deleteFacus(user.getId(), fid);
+            if (i>0)
+            {
+                result.setSuccess(true);
+                result.setMsg("取消关注成功！");
+            }
+        }
 
         return result;
     }
