@@ -44,7 +44,7 @@
       <dependency><!--mybatis-->
           <groupId>org.mybatis</groupId>
           <artifactId>mybatis</artifactId>
-          <version>3.5.2</version>
+          <version>3.5.6</version>
       </dependency>
       <dependency><!--mybatis和spring整合-->
           <groupId>org.mybatis</groupId>
